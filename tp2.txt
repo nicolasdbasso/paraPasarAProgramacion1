@@ -1,0 +1,198 @@
+/*
+ ============================================================================
+ Name        : empleados.c
+ Author      : se
+ Version     :
+ Copyright   : Your copyright notice
+ Description : Hello World in C, Ansi-style
+ ============================================================================
+ */
+
+#include <stdio.h>
+#include <stdio_ext.h>
+#include <stdlib.h>
+#include <string.h>
+
+#define QTY_TAM 2
+
+typedef struct {
+	int id;
+	char name[51];
+	char lastName[51];
+	float salary;
+	int sector;
+	int isEmpty;
+} Employee;
+
+int menu();
+void initEmployees(Employee lista[], int tam);
+int buscarLibre(Employee lista[], int tam);
+void addEmployee(Employee *lista, int len, char name[], char lastName[],
+		float salary, int sector);
+void captureData(char *name, char *lastName, float *salary, int *sector);
+
+int main() {
+
+	char continuar = 's';
+	Employee empleado[QTY_TAM];
+	initEmployees(empleado, QTY_TAM);
+	char name[51];
+	char lastName[51];
+	float salary;
+	int sector;
+	do {
+
+		switch (menu()) {
+		case 1:
+			printf("\nAlta de cliente\n\n");
+			captureData(name, lastName, &salary, &sector);
+			addEmployee(empleado, QTY_TAM, name, lastName, salary, sector);
+			system("pause");
+			break;
+		case 2:
+			printf("\nModificar datos de cliente\n\n");
+			break;
+		case 3:
+			printf("\nBaja de cliente\n\n");
+			break;
+		case 4:
+			printf("\nPublicar\n\n");
+			break;
+		case 5:
+			printf("\nPausar publicación\n\n");
+			break;
+		case 6:
+			printf("\nReanudar publicación\n\n");
+			break;
+		case 7:
+			printf("\nImprimir Clientes\n\n");
+			break;
+		case 8:
+			printf("\nImprimir publicaciones\n\n");
+			break;
+		case 9:
+			printf("\nInformar clientes\n\n");
+			break;
+		case 10:
+			printf("\nInformar publicaciones\n\n");
+			break;
+		case 11:
+			break;
+		default:
+			;
+
+		}
+		printf("\nDesea continuar 's': ");
+		scanf("%c", &continuar);
+	} while (continuar == 's');
+	return 0;
+}
+
+void initEmployees(Employee lista[], int tam) {
+	int i;
+	for (i = 0; i < tam; i++) {
+		lista[i].isEmpty = 0;
+	}
+}
+
+int buscarLibre(Employee lista[], int tam) {
+	int indice = -1;
+	int i;
+	for (i = 0; i < tam; i++) {
+		if (lista[i].isEmpty == 0) {
+			indice = i;
+			break;
+		}
+	}
+	return indice;
+}
+
+int menu() {
+	int opcion;
+	system("cls");
+	printf("\n1--Alta cliente\n");
+	printf("2--Modificar datos de cliente\n");
+	printf("3--Baja de cliente\n");
+	printf("4--Publicar\n");
+	printf("5--Pausar publicación:\n");
+	printf("5- Reanudar publicación:\n");
+	printf("6--Pausar publicación:\n");
+	printf("7--Imprimir Clientes:\n");
+	printf("8--Imprimir publicaciones:\n");
+	printf("9--Informar clientes:\n");
+	printf("10--Informar publicaciones:\n");
+	printf("11--SALIR\n\n");
+	printf("\n Ingrese opcion: ");
+	scanf("%d", &opcion);
+	return opcion;
+}
+
+/*
+ void addEmployee(Employee* lista, int len, int id, char name[],char
+ lastName[],float salary,int sector)
+ {
+ int i;
+ int indice;
+
+ indice = buscarLibre(lista, tam);
+
+ for(i=0;i<tam;i++){
+
+ if(indice == -1)
+ {
+ printf("No hay lugar");
+ }
+ else
+ {
+ lista[i].id = i+1;
+
+ printf("Ingrese el name: ");
+ fgets(lista[i].name,sizeof(lista[i].name),stdin);
+ __fpurge(stdin);
+
+ printf("\nIngrese el lastname: ");
+ scanf("%d",&lista[i].lastname);
+
+ printf("\nIngrese salary ");
+ scanf("%d",&lista[i].salary);
+
+ printf("\nIngrese sector ");
+ scanf("%d",&lista[i].sector);
+
+ }
+
+ }
+ }
+ */
+
+void addEmployee(Employee *lista, int len, char name[], char lastName[],
+		float salary, int sector) {
+	int i;
+	int indice;
+	indice = buscarLibre(lista, len);
+	for (i = 0; i < len; i++) {
+		if (indice == -1) {
+			printf("No hay lugar");
+		} else {
+			lista[i].id = i + 1;
+			strcpy(lista[i].name, name);
+			strcpy(lista[i].lastName, lastName);
+			lista[i].salary = salary;
+			lista[i].sector = sector;
+		}
+	}
+}
+
+void captureData(char *name, char *lastName, float *salary, int *sector) {
+
+	printf("Ingrese el name: ");
+	fgets(name, sizeof(name), stdin);
+	__fpurge(stdin);
+	printf("\nIngrese el lastname: ");
+	fgets(lastName, sizeof(lastName), stdin);
+	printf("\nIngrese salary ");
+	scanf("%f", salary);
+	printf("\nIngrese sector ");
+	scanf("%d", sector);
+}
+
